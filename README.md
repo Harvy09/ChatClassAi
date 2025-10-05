@@ -1,22 +1,23 @@
 # ChatClass AI  
-**An AI-powered oral quiz and learning assistant for classrooms and self-study.**
+**An AI-powered multilingual oral quiz and learning assistant for classrooms and self-study.**
 
-ChatClass AI transforms any document or topic into an **interactive, spoken learning experience**.  
-It doesn’t just ask questions — it can **summarize uploaded PDFs**, **generate contextual quiz questions**, and **speak answers aloud**.  
+ChatClass AI transforms any document or topic into an **interactive, multilingual, spoken learning experience**.  
+It can **summarize uploaded PDFs**, **generate contextual quiz questions**, and **speak answers aloud** in multiple languages — making it accessible to learners worldwide.  
 
-Built with **Cerebras’ hosted Meta Llama 3.1-8B model**, **Retrieval-Augmented Generation (RAG)** for factual grounding, and **gTTS** for lifelike voice synthesis — all orchestrated through **FastAPI**, **Streamlit**, and **Docker**.
+Built with **Cerebras’ hosted Meta Llama 3.1-8B model**, **Retrieval-Augmented Generation (RAG)** for factual grounding, and **gTTS** for lifelike multilingual voice synthesis — all orchestrated through **FastAPI**, **Streamlit**, and **Docker**.
 
 ---
 
-## 🚀 Features
+## Features
 
-### 🧠 Intelligent Learning
+### Intelligent Learning
 - **PDF Summarization & Auto-Quiz Generation** — Upload any PDF (lesson, article, or study material) and let the AI summarize it and create relevant oral quiz questions.  
 - **AI-generated Oral Q&A** — Uses **Meta’s Llama 3.1-8B** hosted on **Cerebras** for natural, context-aware question answering.  
 - **Voice Output with gTTS** — Converts every question and answer into clear, human-like speech.  
 - **Retrieval-Augmented Generation (RAG)** — Ensures accuracy by grounding responses in retrieved factual context.  
+- **Multi-Language Support** — Learners can choose their preferred language (English, Hindi, Spanish, French, etc.) for both text and voice output, powered by **gTTS multilingual synthesis** and **language-aware prompts** for **Llama 3.1-8B**.  
 
-### ⚙️ Architecture & System Design
+### Architecture & System Design
 - **FastAPI Backend** — Manages RAG retrieval, LLM inference, and text-to-speech generation.  
 - **Streamlit Frontend** — Provides a clean, interactive interface for classroom or self-learning use.  
 - **Dockerized Setup** — Fully containerized backend and frontend for easy deployment and reproducibility.  
@@ -24,7 +25,7 @@ Built with **Cerebras’ hosted Meta Llama 3.1-8B model**, **Retrieval-Augmented
 
 ---
 
-## 🧩 Architecture Overview
+## Architecture Overview
 
 ```mermaid
 flowchart LR
@@ -43,17 +44,17 @@ flowchart LR
 
 ---
 
-## 📘 PDF Summarization & Auto-Quiz Generation
+## PDF Summarization & Auto-Quiz Generation
 
 ChatClass AI can **ingest any uploaded PDF**, **summarize it**, and then **generate oral quiz questions** from its content — turning textbooks, notes, or research papers into interactive learning sessions.
 
 ```mermaid
 flowchart LR
-    U[User Uploads PDF] --> P[FastAPI Backend]
-    P --> E[Text Extraction & Chunking]
-    E --> S[Summary Generation via Cerebras Llama 3.1-8B]
-    S --> Q[Question Generation Module]
-    Q -->|Questions + Answers| F[Streamlit Frontend → Spoken via gTTS]
+    U["User Uploads PDF"] --> P["FastAPI Backend"]
+    P --> E["Text Extraction & Chunking"]
+    E --> S["Summary Generation via Cerebras Llama 3.1-8B"]
+    S --> Q["Question Generation Module"]
+    Q -->|Questions + Answers| F["Streamlit Frontend → Spoken via gTTS"]
 ```
 
 **How it works:**
@@ -70,13 +71,39 @@ flowchart LR
 
 ---
 
-## 🧠 RAG (Retrieval-Augmented Generation) Integration
+## Multi-Language Learning Support
+
+ChatClass AI makes global learning seamless with its **built-in multilingual capability**.
 
 ```mermaid
 flowchart LR
-    Q[User Question] --> R[Retriever: rag_utils.py]
-    R -->|Relevant Context| M[Cerebras Llama 3.1-8B via Cerebras API]
-    M -->|Grounded Answer| B[Backend → Streamlit → User]
+    U["User Selects Language"] --> F["Streamlit Frontend"]
+    F --> B["FastAPI Backend"]
+    B -->|Localized Prompt| L["Cerebras Llama 3.1-8B"]
+    L -->|Answer in Selected Language| G["gTTS Speech Output"]
+```
+
+**How it works:**
+1. The user selects a preferred language from the Streamlit interface.  
+2. The backend dynamically adjusts prompts and context to generate responses in that language.  
+3. **gTTS** synthesizes spoken audio in the same language and accent.  
+
+**Supported examples:** English 🇬🇧 | Hindi 🇮🇳 | Spanish 🇪🇸 | French 🇫🇷 | German 🇩🇪 | Japanese 🇯🇵 | and many more.
+
+**Benefits:**
+- Makes quizzes and summaries accessible to non-English speakers.  
+- Enables use in multilingual classrooms.  
+- Supports language learning through oral comprehension practice.
+
+---
+
+## RAG (Retrieval-Augmented Generation) Integration
+
+```mermaid
+flowchart LR
+    Q["User Question"] --> R["Retriever: rag_utils.py"]
+    R -->|Relevant Context| M["Cerebras Llama 3.1-8B via Cerebras API"]
+    M -->|Grounded Answer| B["Backend → Streamlit → User"]
 ```
 
 **Purpose:**  
@@ -85,7 +112,7 @@ flowchart LR
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 | Layer | Technology | Purpose |
 |-------|-------------|----------|
@@ -98,22 +125,22 @@ flowchart LR
 
 ---
 
-## 🧱 Local Setup (with Docker)
+## Local Setup (with Docker)
 
-### 1️⃣ Clone the repository
+### 1️Clone the repository
 ```bash
 git clone https://github.com/yourusername/ChatClassAI.git
 cd ChatClassAI
 ```
 
-### 2️⃣ Add environment variables
+### 2️Add environment variables
 Create a `.env` file in the project root:
 ```bash
 LLM_API_KEY=your_cerebras_api_key
 LLM_ENDPOINT=https://api.cerebras.ai/v1/chat/completions
 ```
 
-### 3️⃣ Build and run
+### 3 Build and run
 ```bash
 docker compose up --build
 ```
@@ -124,7 +151,7 @@ docker compose up --build
 
 ---
 
-## 🧪 Testing the Features
+##  Testing the Features
 
 | Test | Expected Result |
 |------|------------------|
@@ -132,11 +159,12 @@ docker compose up --build
 | Upload PDF | File gets summarized automatically |
 | Generate quiz | AI creates and speaks context-relevant questions |
 | Ask manual question | RAG + Llama 3.1-8B produce accurate spoken response |
+| Multi-language quiz | Responses and audio adapt to selected language |
 | Check logs | FastAPI logs show RAG and Cerebras API calls |
 
 ---
 
-## 🤝 Integration with Sponsors
+##  Integration with Sponsors
 
 | Sponsor | Usage | Impact |
 |----------|--------|--------|
@@ -146,7 +174,7 @@ docker compose up --build
 
 ---
 
-## 🧩 Design Decisions
+## Design Decisions
 
 - **Cerebras-hosted Llama 3.1-8B:** Fast inference, open-weight transparency.  
 - **RAG Layer:** Factual grounding for accurate, explainable answers.  
@@ -156,23 +184,24 @@ docker compose up --build
 
 ---
 
-## 🔮 Future Improvements
+## Future Improvements
 
 - Add speech-to-text input for full conversational learning.  
 - Integrate persistent vector database for richer RAG context.  
 - Cloud deployment (Render, Hugging Face Spaces, AWS).  
 - Optionally integrate **MCP Gateway** for advanced telemetry and routing.  
+- Expand multilingual voice options with neural TTS engines.  
 
 ---
 
-## 👥 Team & Credits
+## Team & Credits
 
 - **Harsh Yadav** — Developer, Architect & AI Integrator  
 - **Hackathon Sponsors:** Cerebras | Meta | Docker  
 
 ---
 
-## 🏁 Summary
+## Summary
 
-> **ChatClass AI** transforms static study material into interactive, voice-enabled, and context-aware learning sessions.  
+> **ChatClass AI** transforms static study material into interactive, voice-enabled, and multilingual learning sessions.  
 > It uniquely combines **Cerebras Llama 3.1-8B**, **RAG**, **gTTS**, and **Dockerized microservices** to create an adaptive classroom experience — bridging content understanding with active recall and auditory learning.
