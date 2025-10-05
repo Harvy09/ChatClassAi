@@ -28,10 +28,10 @@ Built with **Cerebras’ hosted Meta Llama 3.1-8B model**, **Retrieval-Augmented
 
 ```mermaid
 flowchart LR
-    A[User (Browser)] -->|Interact| B[Streamlit Frontend]
-    B -->|HTTP Request| C[FastAPI Backend]
-    C -->|RAG Context + Query| D[(Cerebras Llama 3.1-8B API)]
-    C -->|Generate Audio| E[gTTS (Text-to-Speech)]
+    A["User (Browser)"] -->|Interact| B["Streamlit Frontend"]
+    B -->|HTTP Request| C["FastAPI Backend"]
+    C -->|RAG Context + Query| D["Cerebras Llama 3.1-8B API"]
+    C -->|Generate Audio| E["gTTS (Text-to-Speech)"]
 ```
 
 **Flow:**
